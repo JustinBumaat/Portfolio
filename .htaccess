@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Let Apache serve real files and directories normally; route all other
+# requests through the single-page application entry point.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

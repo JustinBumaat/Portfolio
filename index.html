@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f4f0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/images/hero-portrait-768.jpg" fetchpriority="high" />
+    <style>
+      @media (width <= 720px) {
+        .portfolio-home .project-route-header.page-container {
+          padding-inline: 0;
+        }
+      }
+
+      html .portfolio-home--dark {
+        --site-background: #040406;
+        --paper: #040406;
+        --paper-strong: #040406;
+        --paper-muted: #040406;
+      }
+
+      .portfolio-home--dark .project-card {
+        background: var(--paper-strong);
+        border: 1px solid #f4f4f0;
+      }
+
+      .portfolio-home--dark .project-card__topline,
+      .portfolio-home--dark .project-card__meta,
+      .portfolio-home--dark .project-card__summary,
+      .portfolio-home--dark .project-card__tags span {
+        color: #f4f4f0;
+      }
+
+      .portfolio-home--dark .project-card__meta span:last-child,
+      .portfolio-home--dark .project-card__tags span {
+        background: #040406;
+        border-color: #f4f4f0;
+      }
+
+      html .menu-overlay--dark .menu-overlay__panel {
+        background: #040406;
+        color: #f4f4f0;
+      }
+
+      html .menu-overlay--dark::before,
+      html .menu-toggle--persistent.menu-toggle--dark {
+        background: #040406;
+      }
+
+      html .menu-overlay--dark .menu-close {
+        color: #f4f4f0;
+      }
+
+      .menu-overlay__header h2[role="link"] {
+        cursor: pointer;
+      }
+
+      .menu-overlay__header h2[role="link"]:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+      }
+
+      .page-stagger-item {
+        animation: page-stagger-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-delay: var(--page-stagger-delay, 0ms);
+      }
+
+      @keyframes page-stagger-in {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .page-stagger-item {
+          animation: none;
+        }
+      }
+    </style>
+    <meta
+      name="description"
+      content="Justin Buma-at — aspiring developer portfolio."
+    />
+    <title>Justin Buma-at - Aspiring Developer</title>
+    <script type="module" crossorigin src="/assets/index-D0WWsiFj.js"></script>
+    <script>
+      const routePaths = {
+        "#home": "/",
+        "#about": "/about",
+        "#all-experiences": "/experience",
+        "#all-work": "/portfolio",
+        "#gears": "/gears",
+        "#contact": "/contact",
+      };
+
+      const cleanPathname = (pathname) =>
+        pathname.replace(/\/+$/, "") || "/";
+
+      const projectSlug = (value) => {
+        try {
+          const slug = decodeURIComponent(value);
+          return slug && !slug.includes("/") ? slug : null;
+        } catch {
+          return null;
+        }
+      };
+
+      const hashToPath = (hash) => {
+        if (routePaths[hash]) return routePaths[hash];
+
+        const project = hash.match(/^#project\/([^/]+)$/);
+        const slug = project && projectSlug(project[1]);
+        return slug ? `/projects/${encodeURIComponent(slug)}` : null;
+      };
+
+      const pathToHash = (pathname) => {
+        const path = cleanPathname(pathname);
+        const route = Object.entries(routePaths).find(([, value]) => value === path);
+        if (route) return route[0];
+
+        const project = path.match(/^\/projects\/([^/]+)$/);
+        const slug = project && projectSlug(project[1]);
+        return slug ? `#project/${slug}` : null;
+      };
+
+      const cleanUrl = (path) => `${path}${window.location.search}`;
+      const isStandaloneRoute = (hash) =>
+        hash !== "#contact" && hashToPath(hash) !== null;
+      const homeAnchors = new Set(["#work", "#experience"]);
+      const pageStaggerSelector = [
+        ".portfolio-home > section",
+        ".portfolio-home > .project-route-header",
+        ".portfolio-home > .about-page__profile",
+        ".portfolio-home > .about-page__chapter",
+        ".portfolio-home > .about-page__future",
+        ".portfolio-home > .gears-page__collection",
+        ".portfolio-home > .project-archive",
+        ".portfolio-home > .pd",
+      ].join(", ");
+
+      const replayPageStagger = () => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        document.querySelectorAll(pageStaggerSelector).forEach((element, index) => {
+          element.classList.remove("page-stagger-item");
+          element.style.setProperty("--page-stagger-delay", `${index * 85}ms`);
+          void element.offsetWidth;
+          element.classList.add("page-stagger-item");
+        });
+      };
+
+      const schedulePageStagger = () => {
+        requestAnimationFrame(() => requestAnimationFrame(replayPageStagger));
+      };
+
+      const scrollToAnchor = (hash) => {
+        if (hash === "#contact" || homeAnchors.has(hash)) {
+          requestAnimationFrame(() =>
+            document.getElementById(hash.slice(1))?.scrollIntoView(),
+          );
+        }
+      };
+
+      const showHashRoute = (hash, path, addHistory) => {
+        const canonicalPath = path || hashToPath(hash);
+        if (!canonicalPath) return;
+
+        const state = { portfolioRoute: canonicalPath };
+        const internalUrl = `${cleanUrl(canonicalPath)}${hash}`;
+        const updateHistory = addHistory ? history.pushState : history.replaceState;
+
+        updateHistory.call(history, state, "", internalUrl);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+        requestAnimationFrame(() => {
+          history.replaceState(state, "", cleanUrl(canonicalPath));
+          scrollToAnchor(hash);
+        });
+      };
+
+      const showHomeAnchor = (hash, addHistory) => {
+        const state = { portfolioRoute: "/", portfolioAnchor: hash };
+        const updateHistory = addHistory ? history.pushState : history.replaceState;
+
+        updateHistory.call(history, state, "", `/${hash}`);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+        requestAnimationFrame(() => {
+          history.replaceState(state, "", cleanUrl("/"));
+          scrollToAnchor(hash);
+        });
+      };
+
+      const initialHash = pathToHash(window.location.pathname);
+      if (!window.location.hash && initialHash) {
+        const path = hashToPath(initialHash);
+        history.replaceState(
+          { portfolioRoute: path },
+          "",
+          `${cleanUrl(path)}${initialHash}`,
+        );
+      }
+
+      window.addEventListener("hashchange", () => {
+        if (isStandaloneRoute(window.location.hash)) {
+          requestAnimationFrame(() => window.scrollTo(0, 0));
+        }
+      });
+      window.addEventListener("hashchange", schedulePageStagger);
+
+      document.addEventListener("click", (event) => {
+        const link = event.target.closest('a[href^="#"]');
+        const hash = link?.getAttribute("href");
+        const path = hash && hashToPath(hash);
+
+        if (
+          !link ||
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          link.target
+        ) {
+          return;
+        }
+
+        if (path) {
+          event.preventDefault();
+          showHashRoute(hash, path, true);
+        } else if (homeAnchors.has(hash)) {
+          event.preventDefault();
+          showHomeAnchor(hash, true);
+        }
+      });
+
+      window.addEventListener("popstate", () => {
+        if (history.state?.portfolioAnchor) {
+          showHomeAnchor(history.state.portfolioAnchor, false);
+          return;
+        }
+
+        const hash = pathToHash(window.location.pathname);
+        if (hash) showHashRoute(hash, hashToPath(hash), false);
+      });
+
+      const renderCurrentPath = () => {
+        const hash = window.location.hash || pathToHash(window.location.pathname);
+        const path = hash && hashToPath(hash);
+        if (homeAnchors.has(hash)) {
+          const state = { portfolioRoute: "/", portfolioAnchor: hash };
+          requestAnimationFrame(() => {
+            history.replaceState(state, "", cleanUrl("/"));
+            scrollToAnchor(hash);
+          });
+        } else if (path) {
+          showHashRoute(hash, path, false);
+        }
+      };
+
+      window.addEventListener("DOMContentLoaded", renderCurrentPath);
+      window.addEventListener("load", renderCurrentPath);
+      window.addEventListener("load", schedulePageStagger);
+
+      const makeMenuNameHomeLink = () => {
+        const heading = document.querySelector(".menu-overlay__header h2");
+        if (!heading || heading.dataset.homeLinkReady) return;
+
+        heading.dataset.homeLinkReady = "true";
+        heading.setAttribute("role", "link");
+        heading.setAttribute("tabindex", "0");
+        heading.setAttribute("aria-label", "Back to home");
+
+        const goHome = () => {
+          showHashRoute("#home", "/", true);
+        };
+
+        heading.addEventListener("click", goHome);
+        heading.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            goHome();
+          }
+        });
+      };
+
+      const updatePortfolioCopy = () => {
+        document
+          .querySelectorAll('a[href="mailto:justinbumat@gmail.com"]')
+          .forEach((link) => {
+            link.href = "mailto:justinbumaat@gmail.com";
+            link.textContent = link.textContent.replace(
+              "justinbumat@gmail.com",
+              "justinbumaat@gmail.com",
+            );
+          });
+
+        document.querySelectorAll("span").forEach((element) => {
+          if (element.textContent === "© 2026 IQ Portfolio") {
+            element.textContent = "© 2026 Justin's Portfolio";
+          }
+        });
+
+        makeMenuNameHomeLink();
+      };
+
+      new MutationObserver(updatePortfolioCopy).observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      });
+      window.addEventListener("DOMContentLoaded", updatePortfolioCopy);
+    </script>
+    <link rel="stylesheet" crossorigin href="/assets/index-GpsqD7qr.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Forest Intelligence Portal logo mark</title>
+  <desc id="desc">A forest-green map pin containing a leaf and topographic contour lines.</desc>
+  <rect width="512" height="512" fill="#F7F5EE"/>
+  <path d="M256 75c-93 0-168 75-168 168 0 122 168 205 168 205s168-83 168-205c0-93-75-168-168-168z" fill="#1C5B42"/>
+  <path d="M164 256c34-73 86-111 156-116-13 58-44 113-104 145-20 11-39 16-52 16z" fill="#9FC96B"/>
+  <path d="M180 314c54-42 91-86 117-137" fill="none" stroke="#F7F5EE" stroke-linecap="round" stroke-width="12"/>
+  <path d="M296 164c45 11 78 40 96 82M310 204c40 10 70 35 91 70M292 246c42 9 76 31 98 61" fill="none" stroke="#5C9F88" stroke-linecap="round" stroke-width="10"/>
+  <circle cx="356" cy="155" r="27" fill="#0E8075"/>
+  <circle cx="356" cy="155" r="9" fill="#F7F5EE"/>
+</svg>

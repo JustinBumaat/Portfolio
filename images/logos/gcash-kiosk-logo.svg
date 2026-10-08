@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GCash Kiosk logo mark</title>
+  <desc id="desc">A navy touchscreen kiosk with a cyan payment check and mint transaction indicator.</desc>
+  <rect width="512" height="512" fill="#FFFFFF"/>
+  <rect x="126" y="72" width="260" height="368" rx="44" fill="#102A56"/>
+  <rect x="154" y="108" width="204" height="232" rx="24" fill="#18B8E8"/>
+  <path d="M205 227l34 34 69-79" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="27"/>
+  <rect x="178" y="371" width="156" height="22" rx="11" fill="#FFFFFF" opacity=".94"/>
+  <rect x="330" y="353" width="38" height="38" rx="12" fill="#4DD9AA"/>
+  <path d="M342 372l8 8 14-17" fill="none" stroke="#102A56" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>
+  <rect x="98" y="155" width="18" height="18" rx="5" fill="#18B8E8"/>
+  <rect x="98" y="185" width="18" height="18" rx="5" fill="#18B8E8"/>
+  <rect x="98" y="215" width="18" height="18" rx="5" fill="#18B8E8"/>
+</svg>

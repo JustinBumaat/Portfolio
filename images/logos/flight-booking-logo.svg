@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Flight Booking and E-Ticketing logo mark</title>
+  <desc id="desc">A navy ticket form with a sky-blue flight arc and coral destination point.</desc>
+  <rect width="512" height="512" fill="#FFFFFF"/>
+  <path d="M112 159c0-17 14-31 31-31h226c17 0 31 14 31 31v62c-22 8-37 29-37 54s15 46 37 54v24c0 17-14 31-31 31H143c-17 0-31-14-31-31v-24c22-8 37-29 37-54s-15-46-37-54z" fill="#0D2955"/>
+  <path d="M167 305c34-80 91-117 171-111 30 2 55 13 76 31" fill="none" stroke="#6CC9EF" stroke-linecap="round" stroke-width="20"/>
+  <path d="M282 169l26 32-42-3z" fill="#6CC9EF"/>
+  <circle cx="391" cy="228" r="15" fill="#F27B5B"/>
+  <path d="M177 342h158" stroke="#FFFFFF" stroke-linecap="round" stroke-width="15" opacity=".9"/>
+</svg>
